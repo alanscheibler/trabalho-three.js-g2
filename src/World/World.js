@@ -92,12 +92,6 @@ class World {
     this.curtain.position.set(-0.6, 2.6, -ROOM_DEPTH / 2 + 0.13);
     this.mainGroup.add(this.curtain);
 
-    // --- LUMINÁRIA
-    const lamp = Lamp.create(1.4, 0.15, 0xfff4e0, 8);
-    lamp.position.set(0.8, ROOM_HEIGHT - 0.05, -1);
-    lamp.rotation.y = Math.PI / 2;
-    this.mainGroup.add(lamp);
-
     // --- MÓVEIS
     const sofa = await ModelLoader.load('src/World/assets/models/low_poly_old_sofa_with_bake_normal.glb');
     ModelLoader.tintMaterials(sofa, 0x161616);
@@ -181,11 +175,18 @@ class World {
     plant.rotation.y = Math.PI * 0.84;
     this.mainGroup.add(plant);
 
+    // --- LUMINÁRIA
+    const lamp = Lamp.create(1.4, 0.15, 0xfff4e0, 8);
+    lamp.position.set(0.8, ROOM_HEIGHT - 0.05, -1);
+    lamp.rotation.y = Math.PI / 2;
+    this.mainGroup.add(lamp);
+
     // --- ILUMINAÇÃO GERAL
     const ambientLight = Light.createAmbientLight(0xffffff, 0.4);
     this.mainGroup.add(ambientLight);
 
-    const directionalLight = Light.createDirectionalLight(1, 2.5, 1, 0xffffff, 0.6);
+    //const directionalLight = Light.createDirectionalLight(1, 2.5, 1, 0xffffff, 0.6);
+    const directionalLight = Light.createDirectionalLight(0, 3, 0, 0xffffff, 0.6);
     const dlHelper = Light.createDirectionalLightHelper(directionalLight, 1);
     this.mainGroup.add(directionalLight, dlHelper);
 

@@ -89,7 +89,7 @@ class World {
 
     // --- PERSIANA 
     this.curtain = Curtain.createSplit(this.physicsWorld, 2.7, 1.2, 2);
-    this.curtain.position.set(-0.6, 2.6, -ROOM_DEPTH / 2 + 0.13);
+    this.curtain.position.set(-0.6, 2.55, -ROOM_DEPTH / 2 + 0.13);
     this.mainGroup.add(this.curtain);
 
     // --- MÓVEIS

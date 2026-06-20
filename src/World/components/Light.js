@@ -20,7 +20,6 @@ class Light {
     return helper;
   }
 
-  // Luz de área retangular - simula painel/calha de LED
   static createRectAreaLight(x, y, z, width = 1.2, height = 0.15, color = 0xffffff, intensity = 8) {
     const light = new THREE.RectAreaLight(color, intensity, width, height);
     light.position.set(x, y, z);

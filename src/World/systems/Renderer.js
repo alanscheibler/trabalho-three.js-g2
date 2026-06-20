@@ -2,11 +2,11 @@ import * as THREE from 'three';
 
 class Renderer {
   static create() {
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
 
-    renderer.toneMapping = THREE.ACESFilmicToneMapping; // Recommended for realism
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
 
     return renderer;

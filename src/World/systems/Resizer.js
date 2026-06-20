@@ -1,6 +1,6 @@
 class Resizer {
   constructor(container, camera, renderer) {
-    // Set the camera's aspect ratio
+    // Set the camera's aspect rat
     camera.aspect = container.clientWidth / container.clientHeight;
 
     // update the camera's frustum

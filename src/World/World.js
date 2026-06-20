@@ -15,13 +15,14 @@ import { Lamp } from './components/Lamp.js';
 import { Curtain } from './components/Curtain.js';
 import { ModelLoader } from './systems/ModelLoader.js';
 import { Pillow } from './components/Pillow.js';
+import { Pillar } from './components/Pillar.js';
 
 import { Renderer } from './systems/Renderer.js';
 import { Resizer } from './systems/Resizer.js';
 
 const ROOM_WIDTH = 4.5;
 const ROOM_DEPTH = 5;
-const ROOM_HEIGHT = 2.7;
+const ROOM_HEIGHT = 3.3;
 
 class World {
   constructor(container) {
@@ -41,9 +42,8 @@ class World {
   }
 
   async init() {
-    // --- Rapier (WASM) precisa terminar de carregar antes de criar o mundo físico ---
     await RAPIER.init();
-    this.physicsWorld = new RAPIER.World({ x: 0, y: 0, z: 0 }); // sem gravidade, só cinemática
+    this.physicsWorld = new RAPIER.World({ x: 0, y: 0, z: 0 });
 
     RectAreaLightUniformsLib.init();
 
@@ -56,12 +56,17 @@ class World {
     Scene.addGridHelper(this.scene, 10, 10).helper.visible = false;
     Scene.addAxesHelper(this.scene, 2).helper.visible = false;
     Scene.addCameraHelper(this.scene, this.camera).helper.visible = false;
+    
+    // --- TETO
+    const ceiling = Wall.createCeiling(ROOM_WIDTH, ROOM_DEPTH);
+    ceiling.position.set(0, ROOM_HEIGHT, 0);
+    this.mainGroup.add(ceiling);
 
-    // --- PISO ---
+    // --- PISO
     const floor = Floor.createCeramicFloor(ROOM_WIDTH, ROOM_DEPTH);
     this.mainGroup.add(floor);
 
-    // --- PAREDES ---
+    // --- PAREDES
     const backWall = Wall.createWall(ROOM_WIDTH, ROOM_HEIGHT);
     backWall.position.set(0, ROOM_HEIGHT / 2, -ROOM_DEPTH / 2);
     this.mainGroup.add(backWall);
@@ -71,40 +76,71 @@ class World {
     sideWall.rotation.y = -Math.PI / 2;
     this.mainGroup.add(sideWall);
 
-    // --- JANELA ---
+    // --- PILAR
+    const pillar = Pillar.create(ROOM_HEIGHT);
+    pillar.position.set(2.2, ROOM_HEIGHT / 2, -2.25);
+    this.mainGroup.add(pillar);
+
+
+    // --- JANELA
     const windowGroup = Window.createWindow(2.4, 1.2, 3);
-    windowGroup.position.set(-0.6, 1.5, -ROOM_DEPTH / 2 + 0.02);
+    windowGroup.position.set(-0.6, 1.90, -ROOM_DEPTH / 2 + 0.01);
     this.mainGroup.add(windowGroup);
 
-    // --- PERSIANA (encostada na parede, na frente da janela) ---
-    this.curtain = Curtain.create(this.physicsWorld, 2.4, 1.2, 0xe0e0e0);
-    this.curtain.position.set(-0.6, 2.1, -ROOM_DEPTH / 2 + 0.05);
+    // --- PERSIANA 
+    this.curtain = Curtain.createSplit(this.physicsWorld, 2.7, 1.2, 2);
+    this.curtain.position.set(-0.6, 2.6, -ROOM_DEPTH / 2 + 0.13);
     this.mainGroup.add(this.curtain);
 
-    // --- LUMINÁRIA ---
+    // --- LUMINÁRIA
     const lamp = Lamp.create(1.4, 0.15, 0xfff4e0, 8);
     lamp.position.set(0.8, ROOM_HEIGHT - 0.05, -1);
     lamp.rotation.y = Math.PI / 2;
     this.mainGroup.add(lamp);
 
-    // --- MÓVEIS (assets glb) ---
+    // --- MÓVEIS
     const sofa = await ModelLoader.load('src/World/assets/models/low_poly_old_sofa_with_bake_normal.glb');
-    ModelLoader.tintMaterials(sofa, 0x161616); // escurece pra ficar preto
+    ModelLoader.tintMaterials(sofa, 0x161616);
     ModelLoader.enableShadows(sofa);
-    sofa.position.set(-0.5, 0, -1.8);
+    sofa.position.set(-0.5, -0.15, -1.8);
     sofa.rotation.y = Math.PI*2; 
     sofa.scale.set(1, 1, 1);
     this.mainGroup.add(sofa);
 
-    // --- ALMOFADAS (sobre o sofá) ---
-    const pillowColors = [0x8e7cc3, 0xd6336c, 0xa8d8ea, 0xf5a17a]; // roxo, pink, azul claro, salmão
-    pillowColors.forEach((color, i) => {
-        const pillow = Pillow.create(0.34, color);
-        pillow.position.set(-1.3 + i * 0.42, 0.55, -2);
-        pillow.rotation.y = (Math.random() - 0.5) * 0.4; // leve rotação aleatória, parece mais natural
-        pillow.rotation.z = (Math.random() - 0.5) * 0.2;
-        this.mainGroup.add(pillow);
-    });
+    // --- ALMOFADAS
+    const pillowRoxa = Pillow.create(0.34, 0x8e7cc3);
+    pillowRoxa.position.set(-0.8, 0.5, -1.85);
+    pillowRoxa.rotation.x = Math.PI / 1.5;
+    pillowRoxa.rotation.y = Math.PI * 1.05;
+    pillowRoxa.rotation.z = Math.PI / 1.6;
+    this.mainGroup.add(pillowRoxa);
+    
+    const pillowPink = Pillow.create(0.34, 0xd6336c);
+    pillowPink.position.set(0, 0.5, -1.7);
+    pillowPink.rotation.x = Math.PI * 1.8;
+    pillowPink.rotation.y = Math.PI / 1.4;
+    pillowPink.rotation.z = Math.PI / 1.6;
+    this.mainGroup.add(pillowPink);
+    
+    const pillowAzul = Pillow.create(0.32, 0xa8d8ea);
+    pillowAzul.position.set(0.2, 0.47, -1.65);
+    pillowAzul.rotation.x = Math.PI * 2;
+    pillowAzul.rotation.y = Math.PI / 1.5;
+    
+    this.mainGroup.add(pillowAzul);
+    
+    const pillowPessegoFrente = Pillow.create(0.32, 0xf5a17a);
+    pillowPessegoFrente.position.set(0.3, 0.5, -1.65);
+    pillowPessegoFrente.rotation.x = Math.PI * 2;
+    pillowPessegoFrente.rotation.y = Math.PI / 1.5;
+    this.mainGroup.add(pillowPessegoFrente);
+    
+    const pillowPessegoTras = Pillow.create(0.34, 0xf2a98e);
+    pillowPessegoTras.position.set(0.5, 0.80, -1.7);
+    pillowPessegoTras.rotation.x = Math.PI / 2;
+    pillowPessegoTras.rotation.y = Math.PI * 1.05;
+    pillowPessegoTras.rotation.z = -Math.PI;
+    this.mainGroup.add(pillowPessegoTras);
 
     const armchair = await ModelLoader.load('src/World/assets/models/armchair.glb');
     armchair.traverse((obj) => {
@@ -115,25 +151,26 @@ class World {
       }
     });
     ModelLoader.enableShadows(armchair);
-    armchair.position.set(1.6, 0, -1);
+    armchair.position.set(1.6, -0.15, -1);
     armchair.rotation.y = Math.PI*1.7;
     armchair.scale.set(0.25, 0.25, 0.25);
     this.mainGroup.add(armchair);
 
     const airConditioner = await ModelLoader.load('src/World/assets/models/air_conditioner.glb');
-    ModelLoader.tintMaterials(airConditioner, 0xe6e0cf); 
-    /*
-    
+    //ModelLoader.tintMaterials(airConditioner, 0xe6e0cf); 
     airConditioner.traverse((obj) => {
       if (obj.isMesh) {
         obj.material.map = null;
-        obj.material.color.setHex(0xbfb8a5);
+    
+        obj.material.color.multiply(
+          new THREE.Color(0xbfb8a5)
+        );
+    
         obj.material.needsUpdate = true;
       }
     });
-    */
     ModelLoader.enableShadows(airConditioner);
-    airConditioner.position.set(-0.6, 1.9, -ROOM_DEPTH / 2 + 0.1);
+    airConditioner.position.set(-0.6, 2.3, -ROOM_DEPTH / 2 + 0.1);
     airConditioner.scale.set(0.1, 0.1, 0.1);
     this.mainGroup.add(airConditioner);
 
@@ -144,7 +181,7 @@ class World {
     plant.rotation.y = Math.PI * 0.84;
     this.mainGroup.add(plant);
 
-    // --- ILUMINAÇÃO GERAL ---
+    // --- ILUMINAÇÃO GERAL
     const ambientLight = Light.createAmbientLight(0xffffff, 0.4);
     this.mainGroup.add(ambientLight);
 
@@ -163,7 +200,7 @@ class World {
       const elapsed = this.clock.getElapsedTime();
 
       this.physicsWorld.step();
-      Curtain.animate(this.curtain, elapsed);
+      Curtain.animateSplit(this.curtain, elapsed);
 
       this.renderer.render(this.scene, this.camera);
     });

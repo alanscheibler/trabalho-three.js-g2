@@ -100,13 +100,13 @@ class GuiControls {
         return cameraFolder;
     }
 
-    addLightFolder(light, helper = null) {
+    addLightFolder(light, helper = null, labelSuffix = '') {
         const initialLightPosition = light.position.clone();
         let lightLabel = "Lights";
-
+    
         const lightFolder = (this.datGui.__folders[lightLabel] === undefined) ? this.datGui.addFolder(lightLabel) : this.datGui.__folders[lightLabel];
-
-        const innerFolder = this.#getLightInnerFolder(light, lightFolder);
+    
+        const innerFolder = this.#getLightInnerFolder(light, lightFolder, labelSuffix);    
 
         // Common light properties
         innerFolder.add(light, "visible");
@@ -149,18 +149,18 @@ class GuiControls {
         return lightFolder;
     }
 
-    #getLightInnerFolder(light, lightFolder) {
+    #getLightInnerFolder(light, lightFolder, labelSuffix = '') {
         if (light instanceof THREE.AmbientLight) {
-            return lightFolder.addFolder("Ambient Light");
-
+            return lightFolder.addFolder("Ambient Light" + labelSuffix);
+    
         } else if (light instanceof THREE.DirectionalLight) {
-            return lightFolder.addFolder("Directional Light");
-
+            return lightFolder.addFolder("Directional Light" + labelSuffix);
+    
         } else if (light instanceof THREE.PointLight) {
-            return lightFolder.addFolder("Point Light");
-
+            return lightFolder.addFolder("Point Light" + labelSuffix);
+    
         } else if (light instanceof THREE.SpotLight) {
-            return lightFolder.addFolder("Spot Light");
+            return lightFolder.addFolder("Spot Light" + labelSuffix);
         }
     }
 

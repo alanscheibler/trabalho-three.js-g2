@@ -26,12 +26,40 @@ class Light {
     return light;
   }
 
-  static createPointLight(x, y, z, color = 0xffffff, intensity = 1, distance = 0) {
+  static createPointLight(x, y, z, color = 0xffffff, intensity = 1, distance = 0, castShadow = true) {
     const light = new THREE.PointLight(color, intensity, distance);
     light.position.set(x, y, z);
-    light.castShadow = true;
+    light.castShadow = castShadow;
     return light;
   }
+
+  static createLinearShadowLights(x, y, z, length = 1.2, axis = 'x', count = 3, color = 0xffffff, totalIntensity = 1.2, distance = 6) {
+    const lights = [];
+    const middleIndex = Math.floor(count / 2);
+
+    const shadowLightIntensity = totalIntensity * 0.6;
+    const fillLightIntensity = (totalIntensity * 0.4) / (count - 1);
+
+    for (let i = 0; i < count; i++) {
+        const offset = (i / (count - 1) - 0.5) * length;
+        const lightX = axis === 'x' ? x + offset : x;
+        const lightZ = axis === 'z' ? z + offset : z;
+
+        const isShadowCaster = (i === middleIndex);
+        const intensity = isShadowCaster ? shadowLightIntensity : fillLightIntensity;
+
+        const light = this.createPointLight(lightX, y, lightZ, color, intensity, distance, isShadowCaster);
+
+        if (isShadowCaster) {
+            light.shadow.bias = -0.002; // evita "shadow acne" (sombra com ruído/listras)
+            light.shadow.mapSize.set(1024, 1024);
+        }
+
+        lights.push(light);
+    }
+
+    return lights;
+  } 
 }
 
 export { Light };

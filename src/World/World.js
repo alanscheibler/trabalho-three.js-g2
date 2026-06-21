@@ -175,26 +175,37 @@ class World {
     plant.rotation.y = Math.PI * 0.84;
     this.mainGroup.add(plant);
 
-    // --- LUMINÁRIA
-    const lamp = Lamp.create(1.4, 0.15, 0xfff4e0, 8);
-    lamp.position.set(0.8, ROOM_HEIGHT - 0.05, -1);
-    lamp.rotation.y = Math.PI / 2;
-    this.mainGroup.add(lamp);
+    // --- LUMINÁRIAS
+    const lamp1ShadowLights = this.#createCeilingLamp(0.8, -1, 1.4, 1);
+    const lamp2ShadowLights = this.#createCeilingLamp(-1.7, -1, 1.4, 2);
 
-    // --- ILUMINAÇÃO GERAL
+    // --- ILUMINAÇÃO GERAL ---
     const ambientLight = Light.createAmbientLight(0xffffff, 0.4);
     this.mainGroup.add(ambientLight);
 
-    //const directionalLight = Light.createDirectionalLight(1, 2.5, 1, 0xffffff, 0.6);
-    const directionalLight = Light.createDirectionalLight(0, 3, 0, 0xffffff, 0.6);
-    const dlHelper = Light.createDirectionalLightHelper(directionalLight, 1);
-    this.mainGroup.add(directionalLight, dlHelper);
-
     this.guiControls.addCameraFolder(this.camera, this.controls);
     this.guiControls.addLightFolder(ambientLight);
-    this.guiControls.addLightFolder(directionalLight, dlHelper);
+    lamp1ShadowLights.forEach((light, i) => this.guiControls.addLightFolder(light, null, ` L1-${i + 1}`));
+    lamp2ShadowLights.forEach((light, i) => this.guiControls.addLightFolder(light, null, ` L2-${i + 1}`));
     this.guiControls.addSceneFolder(this.scene);
   }
+
+  #createCeilingLamp(x, z, length, lampIndex) {
+    const lamp = Lamp.create(length, 0.15, 0xfff4e0, 8);
+    lamp.position.set(x, ROOM_HEIGHT - 0.05, z);
+    lamp.rotation.y = Math.PI / 2;
+    this.mainGroup.add(lamp);
+
+    const shadowLights = Light.createLinearShadowLights(
+      x, ROOM_HEIGHT - 0.1, z,
+      length, 'z', 5,
+      0xfff4e0, 2.2, 6
+    );
+
+    shadowLights.forEach((light) => this.mainGroup.add(light));
+
+    return shadowLights;
+}
 
   render() {
     this.renderer.setAnimationLoop(() => {

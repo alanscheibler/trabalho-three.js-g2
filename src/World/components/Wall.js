@@ -17,6 +17,10 @@ class Wall {
         return this.createWall(width, height, 0x14161a);
     }
 
+    static createOrangeWall(width, height) {
+        return this.createWall(width, height, 0xb55322);
+    }
+
     static createCeiling(width, depth, color = 0xf0f0ee) {
         const geometry = new THREE.PlaneGeometry(width, depth);
         const material = new THREE.MeshStandardMaterial({ color, roughness: 0.95, side: THREE.DoubleSide });

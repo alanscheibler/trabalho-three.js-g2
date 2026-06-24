@@ -2,11 +2,19 @@ import { GUI } from 'dat.gui';
 import * as THREE from 'three';
 
 class GuiControls {
-    constructor(datGui) {
+    constructor(container) {
         this.datGui = new GUI({
             closeOnTop: true,
-            closed: true
-        });        
+            closed: true,
+            autoPlace: false
+        });
+
+        this.datGui.domElement.style.position = 'absolute';
+        this.datGui.domElement.style.top = '0';
+        this.datGui.domElement.style.right = '0';
+        this.datGui.domElement.style.zIndex = '10';
+
+        container.appendChild(this.datGui.domElement);
     }
 
     addSceneFolder(scene) {

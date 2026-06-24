@@ -18,7 +18,7 @@ class Wall {
     }
 
     static createOrangeWall(width, height) {
-        return this.createWall(width, height, 0xb55322);
+        return this.createWall(width, height, 0xcc6a3d);
     }
 
     static createCeiling(width, depth, color = 0xf0f0ee) {

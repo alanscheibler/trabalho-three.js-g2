@@ -37,7 +37,7 @@ class World {
     this.controls.listenToKeyEvents(window);
     this.controls.target.set(0, 1.4, 0);
 
-    this.guiControls = new GuiControls();
+    this.guiControls = new GuiControls(this.container);
     this.clock = new THREE.Clock();
   }
 

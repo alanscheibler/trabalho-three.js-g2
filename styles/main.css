@@ -27,10 +27,10 @@ h1 {
 
 #scene-container-1,
 #scene-container-2 {
-  flex: 1;
   position: relative;
   min-width: 0;
   overflow: hidden;
+  flex: 1;
 
   /*
     Set the container's background color to the same as the scene's
@@ -42,3 +42,38 @@ h1 {
 #scene-container-1 {
   border-right: 2px solid #000;
 }
+
+#view-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#view-menu button {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+#view-menu button.active {
+  background: #555;
+}
+
+#dual-view {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+#dual-view.mode-world1 #scene-container-2 { display: none; }
+#dual-view.mode-world1 #scene-container-1 { flex: 1 1 100%; border-right: none; }
+
+#dual-view.mode-world2 #scene-container-1 { display: none; }
+#dual-view.mode-world2 #scene-container-2 { flex: 1 1 100%; }

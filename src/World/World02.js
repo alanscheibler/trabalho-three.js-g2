@@ -54,7 +54,7 @@ class World02 {
     Scene.addGridHelper(this.scene, 10, 10).helper.visible = false;
     Scene.addAxesHelper(this.scene, 2).helper.visible = false;
 
-    // --- TETO (metade branca frente, metade laranja atrás)
+    // --- TETO
     const ceilingFront = Wall.createCeiling(ROOM_WIDTH, ROOM_DEPTH / 2, 0xf0f0ee);
     ceilingFront.position.set(0, ROOM_HEIGHT, ROOM_DEPTH / 4);
     ceilingFront.material.roughness = 0.3;
@@ -106,7 +106,7 @@ class World02 {
     const ambient = Light.createAmbientLight(0xffffff, 0.65);
     this.mainGroup.add(ambient);
 
-    // luz de preenchimento suave vinda de cima
+    // luz de preenchimento
     //const fill = Light.createPointLight(0, ROOM_HEIGHT - 0.3, 0.5, 0xfff4e0, 1.0, 8, false);
     //this.mainGroup.add(fill);
 
@@ -116,10 +116,18 @@ class World02 {
     this.guiControls.addSceneFolder(this.scene);
   }
 
-  render() {
+  play() {
     this.renderer.setAnimationLoop(() => {
       this.renderer.render(this.scene, this.camera);
     });
+  }
+  
+  pause() {
+    this.renderer.setAnimationLoop(null);
+  }
+  
+  resize() {
+    this.resizer.resize();
   }
 }
 

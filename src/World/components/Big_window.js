@@ -20,7 +20,7 @@ class BigWindow {
             polygonOffsetUnits: -1
         });
 
-        const ft = 0.05; // frame thickness
+        const ft = 0.05;
         const paneW = width / panes;
         const topH = height * topRatio;
         const bottomH = height - topH;

@@ -4,7 +4,6 @@ class LedStrip {
   static create(width = 4.5) {
     const group = new THREE.Group();
 
-    // LED 
     const geometry = new THREE.BoxGeometry(width, 0.02, 0.08);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffe6cc,
@@ -13,7 +12,7 @@ class LedStrip {
     });
 
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 3.29, 0); // colado no teto
+    mesh.position.set(0, 3.29, 0);
     group.add(mesh);
 
     // Iluminação

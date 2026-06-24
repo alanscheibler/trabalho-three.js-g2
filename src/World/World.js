@@ -120,7 +120,6 @@ class World {
     pillowAzul.position.set(0.2, 0.47, -1.65);
     pillowAzul.rotation.x = Math.PI * 2;
     pillowAzul.rotation.y = Math.PI / 1.5;
-    
     this.mainGroup.add(pillowAzul);
     
     const pillowPessegoFrente = Pillow.create(0.32, 0xf5a17a);
@@ -136,6 +135,7 @@ class World {
     pillowPessegoTras.rotation.z = -Math.PI;
     this.mainGroup.add(pillowPessegoTras);
 
+    // --- POLTRONA
     const armchair = await ModelLoader.load('src/World/assets/models/armchair.glb');
     armchair.traverse((obj) => {
       if (obj.isMesh) {
@@ -150,6 +150,7 @@ class World {
     armchair.scale.set(0.25, 0.25, 0.25);
     this.mainGroup.add(armchair);
 
+    // --- AR CONDICIONADO
     const airConditioner = await ModelLoader.load('src/World/assets/models/air_conditioner.glb');
     //ModelLoader.tintMaterials(airConditioner, 0xe6e0cf); 
     airConditioner.traverse((obj) => {
@@ -168,6 +169,7 @@ class World {
     airConditioner.scale.set(0.1, 0.1, 0.1);
     this.mainGroup.add(airConditioner);
 
+    // --- VASO DE PLANTA
     const plant = await ModelLoader.load('src/World/assets/models/plant_vase.glb');
     ModelLoader.enableShadows(plant);
     plant.position.set(1.1, 0, -1.8);
@@ -207,7 +209,7 @@ class World {
     return shadowLights;
 }
 
-  render() {
+  play() {
     this.renderer.setAnimationLoop(() => {
       const elapsed = this.clock.getElapsedTime();
 
@@ -216,6 +218,14 @@ class World {
 
       this.renderer.render(this.scene, this.camera);
     });
+  }
+
+  pause() {
+    this.renderer.setAnimationLoop(null);
+  }
+
+  resize() {
+    this.resizer.resize();
   }
 }
 

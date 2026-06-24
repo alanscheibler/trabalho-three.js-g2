@@ -26,7 +26,12 @@
 
 <body>
   <script type="module" src="./src/main.js"></script>
-  <div id="dual-view" style="display:flex; width:100vw; height:100vh;">
+  <nav id="view-menu">
+    <button data-view="dual" class="active">Ambas</button>
+    <button data-view="world1">Cena 1</button>
+    <button data-view="world2">Cena 2</button>
+  </nav>
+  <div id="dual-view">
     <div id="scene-container-1"></div>
     <div id="scene-container-2"></div>
   </div>

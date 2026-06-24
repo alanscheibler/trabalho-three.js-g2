@@ -51,7 +51,7 @@ class Light {
         const light = this.createPointLight(lightX, y, lightZ, color, intensity, distance, isShadowCaster);
 
         if (isShadowCaster) {
-            light.shadow.bias = -0.002; // evita "shadow acne" (sombra com ruído/listras)
+            light.shadow.bias = -0.002;
             light.shadow.mapSize.set(1024, 1024);
         }
 

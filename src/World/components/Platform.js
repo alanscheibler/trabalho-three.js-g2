@@ -2,14 +2,13 @@ import * as THREE from 'three';
 
 class Platform {
     /**
-     * @param {number} cfg.straightRightDepth  - de B até G: quanto desce reto no lado direito
-     * @param {number} cfg.rightDiagonalInset  - de G até C: quanto a diagonal corta pra esquerda
-     * Demais parâmetros iguais ao anterior.
+     * @param {number} cfg.straightRightDepth
+     * @param {number} cfg.rightDiagonalInset
      */
     static createLevel({
         width = 5.5,
         backBarDepth = 0.6,
-        rightBarDepth = null,        // se não passar, usa backBarDepth (comportamento anterior)
+        rightBarDepth = null,
         protrusionWidthBack = 1.9,
         protrusionWidthFront = 1.3,
         protrusionDepth = 1.15,
@@ -18,18 +17,18 @@ class Platform {
         color = 0xcc6a3d
     }) {
         const hw = width / 2;
-        const gDepth = rightBarDepth ?? backBarDepth; // G usa rightBarDepth se passado, senão backBarDepth
+        const gDepth = rightBarDepth ?? backBarDepth;
     
         const shape = new THREE.Shape();
     
         shape.moveTo(-hw, 0);
-        shape.lineTo(hw, 0);                                                            // B
-        shape.lineTo(hw, -gDepth);                                                      // G (agora independente)
-        shape.lineTo(hw - rightDiagonalInset, -protrusionDepth);                       // C
-        shape.lineTo(hw - rightDiagonalInset - protrusionWidthFront, -protrusionDepth);// D
-        shape.lineTo(hw - protrusionWidthBack, -backBarDepth);                         // E
-        shape.lineTo(-hw, -backBarDepth);                                               // F
-        shape.lineTo(-hw, 0);                                                           // A
+        shape.lineTo(hw, 0);
+        shape.lineTo(hw, -gDepth);
+        shape.lineTo(hw - rightDiagonalInset, -protrusionDepth);
+        shape.lineTo(hw - rightDiagonalInset - protrusionWidthFront, -protrusionDepth);
+        shape.lineTo(hw - protrusionWidthBack, -backBarDepth);
+        shape.lineTo(-hw, -backBarDepth);
+        shape.lineTo(-hw, 0);
     
         const geo = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
         const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.65, metalness: 0.08 });

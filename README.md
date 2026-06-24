@@ -1,8 +1,11 @@
-# Introducing the World App
+# Trabalho G2
 
 Computação Gráfica: Projeto modelo com Three.JS
 
-Prof. Fahad Kalil
+Aluno: Alan Marcelo Scheibler
+RA: 1130556
+Aluna: Rhayra Rodrigues Fiorentin
+RA: 1135147
 
 ---
 

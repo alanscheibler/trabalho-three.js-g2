@@ -2,17 +2,11 @@
 
 Computação Gráfica: Projeto modelo com Three.js
 
-Alunos: 
-
-Alan Marcelo Scheibler
-
+Aluno: Alan Marcelo Scheibler -
 RA: 1130556
 
-
-Aluna: Rhayra Rodrigues Fiorentin
+Aluna: Rhayra Rodrigues Fiorentin - 
 RA: 1135147
-
----
 
 ## Cenas
 
@@ -22,8 +16,6 @@ O projeto possui duas cenas: a primeira é uma reprodução da imagem "01__20260
 ### Navegação entre cenas
 Ao executar o projeto, já será possível visualizar as duas cenas: a primeira cena ao lado esquerdo e a segunda cena ao lado direito.
 No canto superior esquerdo está disponível um menu que permite alternar entre a visualização das duas cenas com a tela dividida ou a visualização apenas da Cena 1 ou da Cena 2.
-
----
 
 ## Instalação
 
